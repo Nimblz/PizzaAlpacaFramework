@@ -1,10 +1,5 @@
 local Entity = {}
 
-local function ForEach(tbl, func)
-    for key,value in pairs(tbl) do
-        func(key,value)
-    end
-end
 
 local function IsFunction(x)
     return (type(x) == "function")
@@ -19,9 +14,9 @@ function Entity.new(...)
 
     self.Components = {}
 
-    ForEach( ComponentsToAdd, function(key,val)
+    for _,val in pairs(ComponentsToAdd) do
         self:AddComponent(val)
-    end)
+    end
 
     return self
 end
@@ -47,60 +42,60 @@ end
 -- Called when added to world
 function Entity:Create(world)
     self.World = world
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Create) then
             component:Create(world)
         end
-    end)
+    end
 end
 
 function Entity:PreStep(time,dt)
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
             component:PreStep(time,dt)
         end
-    end)
+    end
 end
 
 function Entity:Step(time,dt)
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
             component:Step(time,dt)
         end
-    end)
+    end
 end
 
 function Entity:PostStep(time,dt)
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
             component:PostStep(time,dt)
         end
-    end)
+    end
 end
 
 function Entity:RenderStepped(time,dt)
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
             component:RenderStep(time,dt)
         end
-    end)
+    end
 end
 
 function Entity:CleanUp()
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.CleanUp) then
             component:Removing()
         end
-    end)
+    end
 end
 
 function Entity:Destroy()
-    ForEach(self.Components, function(type,component)
+    for _, component in pairs(self.Components) do
         if IsFunction(component.Destroy) then
             self:RemoveComponent(component)
             component:Destroy()
         end
-    end)
+    end
 end
 
 return Entity
