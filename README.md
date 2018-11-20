@@ -1,5 +1,5 @@
-# CoolPizza
-CoolPizza is a framework of modules used in a lot of my projects, and now it's available for you!
+# PizzaAlpaca
+PizzaAlpaca is a bunch of modules and utilities used in a lot of my projects, and now it's available for you to gawk at in abject horror!
 
 ## How to use
 To be written.
