@@ -1,41 +1,60 @@
 local ModuleManager = {}
-local Modules = {}
 
 local function IsFunction(x)
     return (type(x) == "function")
 end
 
-function ModuleManager.AddModuleDirectory(moduleDirectory)
+function ModuleManager.new(useDebug)
+    local self = setmetatable({},{__index = ModuleManager})
+
+    self.ModuleInstances = {}
+    self.Modules = {} -- Loaded Modules.
+
+    return self
+end
+
+function ModuleManager:AddModuleDirectory(moduleDirectory) -- not recursive.
     for _,moduleScript in pairs(moduleDirectory:GetChildren()) do
         if moduleScript:IsA("ModuleScript") then
-            local Module = require(moduleScript)
-            Modules[moduleScript.Name] = Module
+            self.ModuleInstances[moduleScript.Name] = moduleScript
         end
     end
 end
 
-function ModuleManager.GetModule(moduleName)
-    return Modules[moduleName]
+function ModuleManager:LoadAllModules() -- Let's not be lazy now.
+    for name,moduleScript in pairs(self.ModuleInstances) do
+        local LoadedModule = require(moduleScript)
+        -- Middleware?
+        self.Modules[name] = LoadedModule
+    end
 end
 
-function ModuleManager.GetModules()
-    return Modules
+function ModuleManager:GetModule(moduleName)
+    return self.Modules[moduleName]
 end
 
-function ModuleManager.Init()
-    for name,module in pairs(Modules) do
+function ModuleManager:GetModules()
+    return self.Modules
+end
+
+function ModuleManager:InitAllModules()
+    for name,module in pairs(self.Modules) do
         if IsFunction(module.Init) then
-            print("Starting:",name)
-            module.Init(ModuleManager)
+            if self.Debug then
+                print("Initializing:",name)
+            end
+            module:Init(self)
         end
     end
 end
 
-function ModuleManager.Start()
-    for name,module in pairs(Modules) do
+function ModuleManager:StartAllModules()
+    for name,module in pairs(self.Modules) do
         if IsFunction(module.Start) then
-            print("Starting:",name)
-            module.Start()
+            if self.Debug then
+                print("Starting:",name)
+            end
+            module:Start(self)
         end
     end
 end

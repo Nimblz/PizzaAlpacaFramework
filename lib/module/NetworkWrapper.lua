@@ -19,7 +19,7 @@ local function GetSignal(tag)
     return Signals[tag]
 end
 
-function NetworkWrapper.Init(moduleManager)
+function NetworkWrapper:Init(moduleManager)
     --ModuleManager = moduleManager
     NetworkWrapper.RemoteEvent = Remote:WaitForChild("RemoteEvent")
     NetworkWrapper.RemoteFunction = Remote:WaitForChild("RemoteFunction")
@@ -53,39 +53,39 @@ function NetworkWrapper.Init(moduleManager)
 	end
 end
 
-function NetworkWrapper.Start()
+function NetworkWrapper:Start(moduleManager)
 
 end
 
 -- Sending to server
-function NetworkWrapper.FireServer(tag, ...)
+function NetworkWrapper:FireServer(tag, ...)
     NetworkWrapper.RemoteFunction:FireServer(tag,...)
 end
 
-function NetworkWrapper.InvokeServer(tag, ...)
+function NetworkWrapper:InvokeServer(tag, ...)
     return NetworkWrapper.RemoteFunction:InvokeServer(tag,...)
 end
 
 -- Sending to client
-function NetworkWrapper.FireClient(tag,player, ...)
+function NetworkWrapper:FireClient(tag,player, ...)
     NetworkWrapper.RemoteEvent:FireClient(player,tag, ...)
 end
 
-function NetworkWrapper.FireAllClients(tag, ...)
+function NetworkWrapper:FireAllClients(tag, ...)
     NetworkWrapper.RemoteEvent:FireAllClients(tag,...)
 end
 
-function NetworkWrapper.InvokeClient(tag,player, ...)
+function NetworkWrapper:InvokeClient(tag,player, ...)
     return NetworkWrapper.RemoteFunction:InvokeClient(player,tag,...)
 end
 
 -- Recieving from anywhere
 
-function NetworkWrapper.GetOnEvent(tag)
+function NetworkWrapper:GetOnEvent(tag)
     return GetSignal(tag)
 end
 
-function NetworkWrapper.SetOnInvoke(tag,func)
+function NetworkWrapper:SetOnInvoke(tag,func)
     InvokeFunctions[tag] = func
 end
 
