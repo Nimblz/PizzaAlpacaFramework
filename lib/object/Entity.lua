@@ -49,6 +49,29 @@ function Entity:Create(world)
     end
 end
 
+function Entity:Removing() -- Cleaning from world
+    self.World = nil
+    for _, component in pairs(self.Components) do
+        if IsFunction(component.EntityRemoving) then
+            component:EntityRemoving()
+        end
+    end
+end
+
+function Entity:Destroy() -- Destroy self and components
+    -- if it's part of a world remove it
+    if self.World and self.World:GetEntity(self) then
+        self.World:CleanEntity(self)
+    end
+    -- detach each component and destroy.
+    for _, component in pairs(self.Components) do
+        self:RemoveComponent(component)
+        if IsFunction(component.Destroy) then
+            component:Destroy()
+        end
+    end
+end
+
 function Entity:PreStep(time,dt)
     for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
@@ -77,23 +100,6 @@ function Entity:RenderStepped(time,dt)
     for _, component in pairs(self.Components) do
         if IsFunction(component.Step) then
             component:RenderStep(time,dt)
-        end
-    end
-end
-
-function Entity:CleanUp()
-    for _, component in pairs(self.Components) do
-        if IsFunction(component.CleanUp) then
-            component:Removing()
-        end
-    end
-end
-
-function Entity:Destroy()
-    for _, component in pairs(self.Components) do
-        if IsFunction(component.Destroy) then
-            self:RemoveComponent(component)
-            component:Destroy()
         end
     end
 end
