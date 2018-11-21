@@ -1,3 +1,5 @@
+-- Tells other modules to update automagically, so you dont have to connect to Stepped.
+
 local RunService = game:GetService("RunService")
 
 local StepDispatcher = {}
