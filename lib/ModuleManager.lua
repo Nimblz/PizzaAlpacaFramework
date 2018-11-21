@@ -4,9 +4,10 @@ local function IsFunction(x)
     return (type(x) == "function")
 end
 
-function ModuleManager.new(useDebug)
+function ModuleManager.new(printDebug)
     local self = setmetatable({},{__index = ModuleManager})
 
+    self.Debug = printDebug or false
     self.ModuleInstances = {}
     self.Modules = {} -- Loaded Modules.
 
@@ -14,11 +15,28 @@ function ModuleManager.new(useDebug)
 end
 
 function ModuleManager:AddModuleDirectory(moduleDirectory) -- not recursive.
+    if self.Debug then
+        print("Loading directory: ", moduleDirectory)
+    end
     for _,moduleScript in pairs(moduleDirectory:GetChildren()) do
         if moduleScript:IsA("ModuleScript") then
-            self.ModuleInstances[moduleScript.Name] = moduleScript
+            self:AddModule(moduleScript)
         end
     end
+end
+
+function ModuleManager:AddModule(moduleScript)
+    assert(moduleScript:IsA("ModuleScript"), moduleScript.." is not a ModuleScript.")
+    self.ModuleInstances[moduleScript.Name] = moduleScript
+end
+
+function ModuleManager:GetModule(moduleName)
+    assert(self.Modules[moduleName], "No such module: "..moduleName)
+    return self.Modules[moduleName]
+end
+
+function ModuleManager:GetModules()
+    return self.Modules
 end
 
 function ModuleManager:LoadAllModules() -- Let's not be lazy now.
@@ -27,14 +45,6 @@ function ModuleManager:LoadAllModules() -- Let's not be lazy now.
         -- Middleware?
         self.Modules[name] = LoadedModule
     end
-end
-
-function ModuleManager:GetModule(moduleName)
-    return self.Modules[moduleName]
-end
-
-function ModuleManager:GetModules()
-    return self.Modules
 end
 
 function ModuleManager:InitAllModules()
