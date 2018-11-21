@@ -10,17 +10,35 @@ function Component.new()
     return self
 end
 
-function Component:Create(world)
+-- Creation
+
+function Component:Adding(entity) -- Added to an entity
+    self.Entity = entity
+end
+
+function Component:Create(world) -- Parent entity added to world
     self.World = world
 end
 
-function Component:CleanUp() -- on removing from world
-end
+-- Removing and Destruction
 
-function Component:Destroy() -- on actual destruction
-    self:CleanUp()
+function Component:EntityRemoving() -- on entity/component removing from world
     self.World = nil
 end
+
+function Component:Removing() -- on removing from entity
+    self:EntityRemoving()
+    self.Entity = nil
+end
+
+function Component:Destroy() -- on destruction
+    -- if it's part of an entity remove it
+    if self.Entity and self.Entity:GetComponent(self.ComponentType) then
+        self.Entity:RemoveComponent(self)
+    end
+end
+
+-- Step stuff
 
 function Component:PreStep(time,dt)
 end
@@ -34,16 +52,6 @@ end
 
 -- Only called on client
 function Component:RenderStepped(time,dt)
-end
-
--- Called when added to an entity
-function Component:Adding(entity)
-    self.Entity = entity
-end
-
-function Component:Removing() -- on removing from entity
-    self:CleanUp()
-    self.Entity = nil
 end
 
 return Component
