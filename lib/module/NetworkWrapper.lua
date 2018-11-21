@@ -60,6 +60,7 @@ function NetworkWrapper:Start(moduleManager)
 end
 
 -- Sending to server
+
 function NetworkWrapper:FireServer(tag, ...)
     NetworkWrapper.RemoteFunction:FireServer(tag,...)
 end
@@ -69,6 +70,7 @@ function NetworkWrapper:InvokeServer(tag, ...)
 end
 
 -- Sending to client
+
 function NetworkWrapper:FireClient(tag,player, ...)
     NetworkWrapper.RemoteEvent:FireClient(player,tag, ...)
 end
