@@ -25,7 +25,7 @@ The ModuleManager can be initialized simply
 
 ```lua
 local PrintDebug = true
-local ModuleManager = require(ReplicatedStorage.lib.ModuleManager).new(PrintDebug) -- Create new modulemanager with debug prints on
+local ModuleManager = require(ReplicatedStorage.lib.object.ModuleManager).new(PrintDebug) -- Create new modulemanager with debug prints on
 
     -- Adds all child modules in an instance to the loading queue. This is not recursive.
 ModuleManager:AddModuleDirectory(ReplicatedStorage.modules)
