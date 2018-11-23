@@ -26,7 +26,7 @@ function ModuleManager:AddModuleDirectory(moduleDirectory) -- not recursive.
 end
 
 function ModuleManager:AddModule(moduleScript)
-    assert(moduleScript:IsA("ModuleScript"), moduleScript.." is not a ModuleScript.")
+    assert(moduleScript:IsA("ModuleScript"), tostring(moduleScript).." is not a ModuleScript.")
     self.ModuleInstances[moduleScript.Name] = moduleScript
 end
 
