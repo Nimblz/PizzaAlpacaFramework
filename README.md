@@ -42,3 +42,5 @@ This style allows you to avoid circular dependancy problems you can get by just 
 This project uses Quenty's luacheck-roblox luacheck config. https://github.com/Quenty/luacheck-roblox
 
 luacheck-roblox is licensed under the MIT license https://github.com/Quenty/luacheck-roblox/blob/master/LICENSE.md
+
+This project uses Quenty's Maid object. https://github.com/Quenty/NevermoreEngine/blob/version2/Modules/Events/Maid.lua
