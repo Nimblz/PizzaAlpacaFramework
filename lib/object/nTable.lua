@@ -1,13 +1,14 @@
--- n dimensional table, lets you do stuff like nTable[x][y][z] = whatever
--- without getting an error that nTable[x][y] is nil
+-- n dimensional table, it's slow, use with care.
 
 local nTable = {}
 
+local function indexFunc(tbl,key)
+    return rawget(rawset(tbl,key,setmetatable({},{__index = indexFunc})),key)
+end
+
 function nTable.new()
     return setmetatable({},{
-        __index = function(tbl,key)
-            return rawget(rawset(tbl,key,setmetatable({},{__index = index})),key)
-        end)
+        __index = indexFunc
     })
 end
 
