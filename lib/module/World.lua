@@ -1,5 +1,14 @@
 -- The world modules is a container for Entity objects
 
+-- call each table member's funcname field, if it's a function, with the supplied args
+function ForEachCall(table, funcname, ...)
+    for k,v in pairs(table) do
+        if type(v[funcname]) == "function" then
+            v[funcname]( ... )
+        end
+    end
+end
+
 local World = {}
 World.Entities = {}
 
@@ -13,46 +22,38 @@ end
 
 -- Type checking is for losers
 function World:AddEntity(entity)
-    World.Entities[entity] = entity
+    self.Entities[entity] = entity
     entity:Create(World)
 end
 
 function World:RemoveEntity(entity) -- removes entity from world
     entity:Removing()
-    World.Entities[entity] = nil
+    self.Entities[entity] = nil
 end
 
 function World:GetEntity(entity)
-    return World.Entities[entity]
+    return self.Entities[entity]
 end
 
 function World:GetEntities()
-    return World.Entities
+    return self.Entities
 end
 
 function World:PreStep(time,dt)
-    for _,entity in pairs(World.Entities) do
-        entity:PreStep(time,dt)
-    end
+    ForEachCall(self.Entities, "PreStep", time, dt)
 end
 
 function World:Step(time,dt)
-    for _,entity in pairs(World.Entities) do
-        entity:Step(time,dt)
-    end
+    ForEachCall(self.Entities, "Step", time, dt)
 end
 
 function World:PostStep(time,dt)
-    for _,entity in pairs(World.Entities) do
-        entity:PostStep(time,dt)
-    end
+    ForEachCall(self.Entities, "PostStep", time, dt)
 end
 
 -- Only called on client
 function World:RenderStepped()
-    for _,entity in pairs(World.Entities) do
-        entity:RenderStepped()
-    end
+    ForEachCall(self.Entities, "RenderStepped")
 end
 
 return World

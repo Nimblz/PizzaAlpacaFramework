@@ -23,23 +23,23 @@ end
 
 function NetworkWrapper:Init(moduleManager)
     --ModuleManager = moduleManager
-    NetworkWrapper.RemoteEvent = Remote:WaitForChild("RemoteEvent")
-    NetworkWrapper.RemoteFunction = Remote:WaitForChild("RemoteFunction")
+    self.RemoteEvent = Remote:WaitForChild("RemoteEvent")
+    self.RemoteFunction = Remote:WaitForChild("RemoteFunction")
 
 	if RunService:IsClient() then
-	    NetworkWrapper.RemoteEvent.OnClientEvent:Connect(function(tag,...)
+	    self.RemoteEvent.OnClientEvent:Connect(function(tag,...)
 	        GetSignal(tag):Fire(...)
 	    end)
 	end
 
 	if RunService:IsServer() then
-	    NetworkWrapper.RemoteEvent.OnServerEvent:Connect(function(player,tag,...)
+	    self.RemoteEvent.OnServerEvent:Connect(function(player,tag,...)
 	        GetSignal(tag):Fire(player,...)
 	    end)
 	end
 
 	if RunService:IsClient() then
-        NetworkWrapper.RemoteFunction.OnClientInvoke = function(tag,...)
+        self.RemoteFunction.OnClientInvoke = function(tag,...)
             if InvokeFunctions[tag] then
                 return InvokeFunctions[tag](...)
             end
@@ -47,7 +47,7 @@ function NetworkWrapper:Init(moduleManager)
 	end
 
 	if RunService:IsServer() then
-        NetworkWrapper.RemoteFunction.OnServerInvoke = function(player,tag,...)
+        self.RemoteFunction.OnServerInvoke = function(player,tag,...)
             if InvokeFunctions[tag] then
                 return InvokeFunctions[tag](player,...)
             end
@@ -62,25 +62,25 @@ end
 -- Sending to server
 
 function NetworkWrapper:FireServer(tag, ...)
-    NetworkWrapper.RemoteFunction:FireServer(tag,...)
+    self.RemoteFunction:FireServer(tag,...)
 end
 
 function NetworkWrapper:InvokeServer(tag, ...)
-    return NetworkWrapper.RemoteFunction:InvokeServer(tag,...)
+    return self.RemoteFunction:InvokeServer(tag,...)
 end
 
 -- Sending to client
 
 function NetworkWrapper:FireClient(tag,player, ...)
-    NetworkWrapper.RemoteEvent:FireClient(player,tag, ...)
+    self.RemoteEvent:FireClient(player,tag, ...)
 end
 
 function NetworkWrapper:FireAllClients(tag, ...)
-    NetworkWrapper.RemoteEvent:FireAllClients(tag,...)
+    self.RemoteEvent:FireAllClients(tag,...)
 end
 
 function NetworkWrapper:InvokeClient(tag,player, ...)
-    return NetworkWrapper.RemoteFunction:InvokeClient(player,tag,...)
+    return self.RemoteFunction:InvokeClient(player,tag,...)
 end
 
 -- Recieving from anywhere
