@@ -2,10 +2,9 @@
 
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Remote = ReplicatedStorage:WaitForChild("remote")
-local Common = ReplicatedStorage:WaitForChild("common")
+local Remote = ReplicatedStorage:FindFirstChild("remote")
 
-local Signal = require(Common.object.Signal)
+local Signal = require(script.Parent.Parent.object.Signal)
 
 local NetworkWrapper = {}
 local Signals = {}

@@ -1,7 +1,7 @@
 -- The world modules is a container for Entity objects
 
 -- call each table member's funcname field, if it's a function, with the supplied args
-function ForEachCall(table, funcname, ...)
+local function ForEachCall(table, funcname, ...)
     for k,v in pairs(table) do
         if type(v[funcname]) == "function" then
             v[funcname]( ... )
