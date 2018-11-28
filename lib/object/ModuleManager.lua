@@ -1,3 +1,5 @@
+-- TODO: Implement lazy loading.
+
 local ModuleManager = {}
 
 local function IsFunction(x)
