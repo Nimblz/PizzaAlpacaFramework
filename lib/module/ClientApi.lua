@@ -1,5 +1,5 @@
 -- based on lpghatguy's RDC project: https://github.com/LPGhatguy/rdc-project/blob/master/src/server/ClientApi.lua
--- It's important that you only call methods to this on the server, ya dork!
+-- It's important that you only call methods to this on the client, ya dork!
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
