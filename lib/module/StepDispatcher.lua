@@ -43,7 +43,7 @@ function StepDispatcher:Start()
     end)
 
     if RunService:IsClient() then
-        RunService:BindToRenderStep("StepDispatcherRenderStep",nil,function()
+        RunService:BindToRenderStep("StepDispatcherRenderStep",Enum.RenderPriority.First.Value,function()
             RenderStepModules(Modules)
         end)
     end
