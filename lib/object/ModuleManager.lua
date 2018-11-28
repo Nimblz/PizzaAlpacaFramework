@@ -16,7 +16,7 @@ end
 
 function ModuleManager:AddModuleDirectory(moduleDirectory) -- not recursive.
     if self.Debug then
-        print("Loading directory: ", moduleDirectory)
+        print("Loading directory: ", moduleDirectory:GetFullName())
     end
     for _,moduleScript in pairs(moduleDirectory:GetChildren()) do
         if moduleScript:IsA("ModuleScript") then
