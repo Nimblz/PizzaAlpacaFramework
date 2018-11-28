@@ -5,6 +5,10 @@
     "src": {
       "path": "lib",
       "target": "ReplicatedStorage.lib.CoolPizza"
+    },
+    "t": {
+      "path": "modules/lib/t",
+      "target": "ReplicatedStorage.lib.t"
     }
   }
 }
