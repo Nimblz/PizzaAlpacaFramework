@@ -17,9 +17,9 @@ function Module:Start(moduleManager) -- Safe to invoke other modules
     local OtherModule = moduleManager:GetModule("OtherModule")
     OtherModule:Foo()
 end
-```
 
 return Module
+```
 
 The ModuleManager can be initialized simply
 
