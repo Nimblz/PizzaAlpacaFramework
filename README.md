@@ -27,11 +27,14 @@ The ModuleManager can be initialized simply
 local PrintDebug = true
 local ModuleManager = require(ReplicatedStorage.lib.object.ModuleManager).new(PrintDebug) -- Create new modulemanager with debug prints on
 
-    -- Adds all child modules in an instance to the loading queue. This is not recursive.
+-- Adds all child modules in an instance to the loading queue. This is not recursive.
 ModuleManager:AddModuleDirectory(ReplicatedStorage.modules)
--- ModuleManager:AddModule(someModuleScript) -- You may also queue singular modules if you want
 
-ModuleManager:LoadAllModules() -- After all modules are added, load them, init them, then start them.
+-- You may also queue singular modules if you want
+-- ModuleManager:AddModule(someModuleScript) 
+
+-- After all modules are added, load them, init them, then start them.
+ModuleManager:LoadAllModules()
 ModuleManager:InitAllModules()
 ModuleManager:StartAllModules()
 ```
